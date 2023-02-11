@@ -208,6 +208,7 @@
             android:layout_height="71dp"
             android:layout_marginStart="65dp"
             android:layout_marginBottom="81dp"
+            android:tint="@color/brown"
             app:layout_constraintBottom_toTopOf="@+id/VolumeTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/SettingsTitle"
