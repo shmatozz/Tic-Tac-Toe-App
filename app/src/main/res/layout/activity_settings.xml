@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/yellow"
+        tools:context=".SettingsActivity">
+
+        <CheckBox
+            android:id="@+id/VerticalWin"
+            android:layout_width="370dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:button="@drawable/style_checkbox"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" win on vertical row"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/DiagonalWin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HorizontalWin" />
+
+        <CheckBox
+            android:id="@+id/DiagonalWin"
+            android:layout_width="370dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="32dp"
+            android:button="@drawable/style_checkbox"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" win on diagonal"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/VerticalWin" />
+
+        <TextView
+            android:id="@+id/RulesTitle"
+            android:layout_width="380dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" Rules"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/HorizontalWin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/difficultyTitle" />
+
+        <TextView
+            android:id="@+id/difficultyTitle"
+            android:layout_width="141dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="EASY"
+            android:textAlignment="center"
+            android:textColor="@color/brown"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toStartOf="@+id/nextArrow"
+            app:layout_constraintStart_toEndOf="@+id/previousArrow"
+            app:layout_constraintTop_toBottomOf="@+id/DifficultyTitle" />
+
+        <TextView
+            android:id="@+id/SettingsTitle"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:layout_marginStart="136dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="136dp"
+            android:layout_marginBottom="68dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/title_settings"
+            android:textAlignment="center"
+            android:textColor="@color/brown"
+            android:textSize="36dp"
+            app:layout_constraintBottom_toTopOf="@+id/VolumeBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/VolumeTitle"
+            android:layout_width="380dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" Volume"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/VolumeBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SettingsTitle" />
+
+        <SeekBar
+            android:id="@+id/VolumeBar"
+            android:layout_width="380dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:progress="80"
+            android:progressDrawable="@drawable/style_seekbar"
+            android:splitTrack="false"
+            android:thumb="@drawable/ic_thumb"
+            app:layout_constraintBottom_toTopOf="@+id/DifficultyTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/VolumeTitle" />
+
+        <TextView
+            android:id="@+id/DifficultyTitle"
+            android:layout_width="380dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" Difficulty"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/previousArrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/VolumeBar" />
+
+        <ImageView
+            android:id="@+id/previousArrow"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="56dp"
+            app:layout_constraintBottom_toTopOf="@+id/RulesTitle"
+            app:layout_constraintEnd_toStartOf="@+id/difficultyTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DifficultyTitle"
+            app:srcCompat="@drawable/previous" />
+
+        <ImageView
+            android:id="@+id/nextArrow"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="56dp"
+            app:layout_constraintBottom_toTopOf="@+id/RulesTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/difficultyTitle"
+            app:layout_constraintTop_toBottomOf="@+id/DifficultyTitle"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/next" />
+
+        <CheckBox
+            android:id="@+id/HorizontalWin"
+            android:layout_width="370dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:button="@drawable/style_checkbox"
+            android:checked="true"
+            android:fontFamily="@font/roboto_medium"
+            android:text=" win on horizontal row"
+            android:textAlignment="viewStart"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/VerticalWin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RulesTitle" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginBottom="81dp"
+            app:layout_constraintBottom_toTopOf="@+id/VolumeTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/SettingsTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cross" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

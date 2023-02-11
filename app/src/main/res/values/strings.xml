@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Tic-Tac-Toe</string>
+    <string name="title_play">PLAY</string>
+    <string name="title_settings">Settings</string>
+    <string name="app_icon">app_icon</string>
+</resources>
