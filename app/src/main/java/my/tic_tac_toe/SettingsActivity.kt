@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import my.tic_tac_toe.databinding.ActivitySettingsBinding
+
+const val PREF_SOUND_VALUE = "my.tick_tac_toe.SOUND"
+const val PREF_DIFFICULTY = "my.tick_tac_toe.DIFFICULTY"
+const val PREF_RULES = "my.tick_tac_toe.RULES"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -21,6 +24,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
 
         val settings = getSettingsInfo()
+
         currentSoundLevel = settings.soundLevel
         currentRules = settings.rules
         currentDifficulty = settings.difficulty
@@ -48,14 +52,16 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        if (currentDifficulty == 0) {
-            binding.previousArrow.visibility = View.INVISIBLE
-        } else if (currentDifficulty == 2) {
-            binding.nextArrow.visibility = View.INVISIBLE
-        }
-
         binding.difficultyTitle.text = resources.getStringArray(R.array.game_difficulty)[currentDifficulty]
         binding.VolumeBar.progress = currentSoundLevel
+
+        binding.toMainMenu.setOnClickListener {
+            setResult(RESULT_OK)
+            updateDifficulty(currentDifficulty)
+            updateRules(currentRules)
+            updateSoundValue(currentSoundLevel)
+            onBackPressed()
+        }
 
         binding.previousArrow.setOnClickListener {
             currentDifficulty--
@@ -75,9 +81,9 @@ class SettingsActivity : AppCompatActivity() {
             currentDifficulty++
 
             if (currentDifficulty == 2) {
-                binding.previousArrow.visibility = View.INVISIBLE
+                binding.nextArrow.visibility = View.INVISIBLE
             } else if (currentDifficulty == 1) {
-                binding.nextArrow.visibility = View.VISIBLE
+                binding.previousArrow.visibility = View.VISIBLE
             }
 
             binding.difficultyTitle.text = resources.getStringArray(R.array.game_difficulty)[currentDifficulty]
@@ -85,16 +91,20 @@ class SettingsActivity : AppCompatActivity() {
             updateDifficulty(currentDifficulty)
         }
 
+        if (currentDifficulty == 0) {
+            binding.previousArrow.visibility = View.INVISIBLE
+        } else if (currentDifficulty == 2) {
+            binding.nextArrow.visibility = View.INVISIBLE
+        }
+
         binding.VolumeBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, value: Int, p2: Boolean) {
                 currentSoundLevel = value
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                TODO("Not yet implemented")
-            }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            override fun onStopTrackingTouch(p0: SeekBar?) {
                 updateSoundValue(currentSoundLevel)
             }
         })
@@ -102,8 +112,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.HorizontalWin.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) currentRules++
             else currentRules--
-
-
 
             updateRules(currentRules)
         }
@@ -130,6 +138,8 @@ class SettingsActivity : AppCompatActivity() {
             putInt(PREF_SOUND_VALUE, value)
             apply()
         }
+
+        setResult(RESULT_OK)
     }
 
     private fun updateDifficulty(difficulty: Int) {
@@ -137,6 +147,8 @@ class SettingsActivity : AppCompatActivity() {
             putInt(PREF_DIFFICULTY, difficulty)
             apply()
         }
+
+        setResult(RESULT_OK)
     }
 
     private fun updateRules(rules: Int) {
@@ -144,23 +156,20 @@ class SettingsActivity : AppCompatActivity() {
             putInt(PREF_RULES, rules)
             apply()
         }
+
+        setResult(RESULT_OK)
     }
 
-    private fun getSettingsInfo() : InfoSettings {
-        with(getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)) {
-            val soundLevel = getInt(PREF_SOUND_VALUE, 0)
-            val difficulty = getInt(PREF_DIFFICULTY, 0)
-            val rules = getInt(PREF_RULES, 0)
+    private fun getSettingsInfo(): InfoSettings {
+        this.getSharedPreferences("game", MODE_PRIVATE).apply {
 
-            return InfoSettings(soundLevel, difficulty, rules)
+            val sound = getInt(PREF_SOUND_VALUE, 100)
+            val level = getInt(PREF_DIFFICULTY, 1)
+            val rules = getInt(PREF_RULES, 7)
+
+            return InfoSettings(sound, level, rules)
         }
     }
 
     data class InfoSettings(val soundLevel: Int, val difficulty: Int, val rules: Int)
-
-    companion object {
-        const val PREF_SOUND_VALUE = "pref_sound_value"
-        const val PREF_DIFFICULTY = "pref_difficulty"
-        const val PREF_RULES = "pref_rules"
-    }
 }

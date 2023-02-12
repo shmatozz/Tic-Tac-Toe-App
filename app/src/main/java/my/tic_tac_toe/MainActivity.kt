@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getInfoAboutGame(): InfoGame {
         with(getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)) {
-            val time = getLong("time", 0L)
-            val gameField = getString("gameField", "")
+            val time = getLong(GameActivity.PREF_TIME, 0L)
+            val gameField = getString(GameActivity.PREF_GAME_FIELD, "")
 
             return if (gameField != null) {
                 InfoGame(time, gameField)

@@ -7,7 +7,7 @@
     <string name="continueTitle">Continue</string>
     <string name="exitTitle">Exit</string>
     
-    <string name="preference_file_key">my.tic_tac_toe.file_key</string>
+    <string name="preference_file_key">game</string>
 
     <string-array name="game_difficulty">
         <item>EASY</item>
@@ -17,4 +17,11 @@
     <string name="dialog_status_win">You win!)</string>
     <string name="dialog_status_lose">You lose(</string>
     <string name="dialog_status_draw">DRAW</string>
+    <string name="win_on_vertical_row"> win on vertical row</string>
+    <string name="win_on_diagonal"> win on diagonal</string>
+    <string name="rules"> Rules</string>
+    <string name="easy">EASY</string>
+    <string name="volume"> Volume</string>
+    <string name="difficulty"> Difficulty</string>
+    <string name="win_on_horizontal_row"> win on horizontal row</string>
 </resources>

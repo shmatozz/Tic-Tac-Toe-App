@@ -26,43 +26,46 @@
 
         <TextView
             android:id="@+id/contnueButton"
+            style="@style/style_popup_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/continueTitle"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menuTitle"
-            style="@style/style_popup_button" />
+            app:layout_constraintTop_toBottomOf="@+id/menuTitle" />
 
         <TextView
             android:id="@+id/settingsButton"
+            style="@style/style_popup_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="@string/title_settings"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contnueButton"
-            style="@style/style_popup_button" />
+            app:layout_constraintTop_toBottomOf="@+id/contnueButton" />
 
         <TextView
             android:id="@+id/exitButton"
+            style="@style/style_popup_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             android:text="@string/exitTitle"
+            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingsButton"
-            style="@style/style_popup_button" />
+            app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
