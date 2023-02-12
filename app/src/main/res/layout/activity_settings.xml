@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/yellow"
         tools:context=".SettingsActivity">
 
@@ -158,7 +158,7 @@
             android:id="@+id/previousArrow"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="56dp"
             app:layout_constraintBottom_toTopOf="@+id/RulesTitle"
@@ -173,7 +173,7 @@
             android:layout_height="64dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="100dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="56dp"
             app:layout_constraintBottom_toTopOf="@+id/RulesTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -208,12 +208,12 @@
             android:layout_height="71dp"
             android:layout_marginStart="65dp"
             android:layout_marginBottom="81dp"
-            android:tint="@color/brown"
             app:layout_constraintBottom_toTopOf="@+id/VolumeTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/SettingsTitle"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cross" />
+            app:srcCompat="@drawable/cross"
+            app:tint="@color/brown" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

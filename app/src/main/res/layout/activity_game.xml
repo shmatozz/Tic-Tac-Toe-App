@@ -16,10 +16,10 @@
         android:background="@drawable/style_menu_button"
         android:backgroundTint="@color/blue"
         android:padding="6dp"
-        app:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu" />
+        app:srcCompat="@drawable/ic_menu"
+        app:tint="@color/white" />
 
     <ImageView
         android:id="@+id/Exit"
@@ -28,10 +28,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/style_menu_button"
-        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cross" />
+        app:srcCompat="@drawable/cross"
+        app:tint="@color/white" />
 
     <Chronometer
         android:id="@+id/Chronometr"

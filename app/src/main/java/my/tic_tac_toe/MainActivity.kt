@@ -1,11 +1,43 @@
 package my.tic_tac_toe
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import my.tic_tac_toe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        binding.toPlay.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.toSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        setContentView(binding.root)
     }
+
+    private fun getInfoAboutGame(): InfoGame {
+        with(getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)) {
+            val time = getLong("time", 0L)
+            val gameField = getString("gameField", "")
+
+            return if (gameField != null) {
+                InfoGame(time, gameField)
+            } else {
+                InfoGame(0L, "")
+            }
+        }
+    }
+
+    data class InfoGame(val time: Long, val gameField: String)
 }
