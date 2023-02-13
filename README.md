@@ -1,7 +1,4 @@
 # Tic-Tac-Toe Android app
- This project is based on stepik course [Android App - игра "Крестики-Нолики" на Kotlin.](https://stepik.org/course/135183/)
- 
- ---
  
 Main Menu                  |  Settings Menu            | Game Field
 :-------------------------:|:-------------------------:|:-------------------------:
