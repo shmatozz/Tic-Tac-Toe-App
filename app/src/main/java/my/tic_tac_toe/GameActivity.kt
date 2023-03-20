@@ -204,29 +204,13 @@ class GameActivity : AppCompatActivity() {
         return CellGameField(randomRow, randomColumn)
     }
 
-    private fun makeNormalStepOfAI() : CellGameField {
-        var bestScore = Double.NEGATIVE_INFINITY
-        var moveCell = CellGameField(0, 0)
-
-        val board = gameField.map { it.clone() }.toTypedArray()
-
-        board.forEachIndexed { indexRow, columns ->
-            columns.forEachIndexed { indexColumn, _ ->
-                if (board[indexRow][indexColumn] == " ") {
-                    board[indexRow][indexColumn] = BOT_SYMBOL
-                    val score = minimax(board, false)
-                    board[indexRow][indexColumn] = " "
-                    if (score > bestScore) {
-                        bestScore = score
-                        moveCell = CellGameField(indexRow, indexColumn)
-                    }
-                }
-            }
+    private fun makeNormalStepOfAI(): CellGameField {
+        val randomChoice: Int = (0.. 2).random()
+        return if (randomChoice == 0) {
+            makeEasyStepOfAI()
+        } else {
+            makeHardStepOfAI()
         }
-
-        makeStep(moveCell.row, moveCell.column, BOT_SYMBOL)
-
-        return moveCell
     }
 
     private fun makeHardStepOfAI(): CellGameField {
