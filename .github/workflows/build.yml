@@ -28,6 +28,7 @@ jobs:
 # job for running unit-tests
   unit-test:
     name: Run unit tests on push and PR on master
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
