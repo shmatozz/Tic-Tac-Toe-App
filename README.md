@@ -8,7 +8,7 @@ Main Menu                  |  Settings Menu            | Game Field
 **Features:**
 
 - Gameplay with bot with variable complexity
-> EASY - random move, NORMAL/HARD - always draw or lose
+> EASY - random move, NORMAL - random choice from EASY and HARD step, HARD - always draw or lose
 - Selectable Game Rules
 > win on row, column or diagonal
 - Music in the Game Field
