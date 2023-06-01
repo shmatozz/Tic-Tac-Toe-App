@@ -45,3 +45,29 @@ jobs:
       with:
         name: app-release
         path: ${{ env.aab }}
+  
+  send_to_firebase:
+    needs: build_test_upload
+    runs-on: ubuntu-latest
+
+    steps:
+#     - uses: actions/checkout@v3
+#     - name: set up JDK 11
+#       uses: actions/setup-java@v3
+#       with:
+#         java-version: '11'
+#         distribution: 'temurin'
+#         cache: gradle
+        
+    - uses: actions/download-artifact@v3
+      with:
+          name: app-release
+          
+    - name: Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
+      with:
+        appId: ${{ secrets.FIREBASE_APP_ID }}
+        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+        groups: testers
+        file: app-release-unsigned.apk
+
