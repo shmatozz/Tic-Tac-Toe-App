@@ -1,18 +1,23 @@
 name: Android CI
 
+# set up launch on push and pull request to master branch
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
+# init list of jobs
 jobs:
-# job for app building with Gradle
+  # job for app building with Gradle
   build_test_upload:
     runs-on: ubuntu-latest
     env:
-      apk: app/build/outputs/apk/release/app-release-unsigned.apk
+      apk: app/build/outputs/apk/release/app-release.apk
       aab: app/build/outputs/bundle/release/app-release.aab
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+      RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
@@ -33,9 +38,9 @@ jobs:
     # create and upload APK and AAB
     - name: Create APK and AAB
       run: |
-         ./gradlew assembleRelease
+         ./gradlew assembleRelease --stacktrace
          ./gradlew bundleRelease
-    - name: Upload APK
+    - name: Upload signed APK
       uses: actions/upload-artifact@v3
       with:
          name: app-release
@@ -45,37 +50,44 @@ jobs:
       with:
         name: app-release
         path: ${{ env.aab }}
-  
+
+  # job for sending APK and AAB artefacts to Firebase server
   send_to_firebase:
     needs: build_test_upload
     runs-on: ubuntu-latest
 
     steps:
+    # download uploaded in the previous job artefacts
     - uses: actions/download-artifact@v3
       with:
           name: app-release
-          
+
+    # send to Firebase
     - name: Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
       with:
         appId: ${{ secrets.FIREBASE_APP_ID }}
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
         groups: testers
-        file: app-release-unsigned.apk
-        
+        file: app-release.apk
+
+  # job for sending message to telegram project chat about commit
   send_telegram:
     needs: build_test_upload
     runs-on: ubuntu-latest
     steps:
+      # download uploaded in the first job artefacts
       - uses: actions/download-artifact@v3
         with:
           name: app-release
+
+      # send to tg chat with bot
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          document: app-release-unsigned.apk
+          document: app-release.apk
           message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
