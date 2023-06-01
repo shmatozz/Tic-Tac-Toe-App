@@ -7,6 +7,23 @@ android {
     namespace 'my.tic_tac_toe'
     compileSdk 33
 
+    signingConfigs {
+        release {
+            storeFile file("keystore/my_app_keystore")
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyAlias System.getenv('RELEASE_KEY_ALIAS')
+            keyPassword System.getenv('RELEASE_KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     defaultConfig {
         applicationId "my.tic_tac_toe"
         minSdk 24
@@ -27,30 +44,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    signingConfigs {
-        release {
-            storeFile file("keystore/keystore_config")
-            storePassword System.getenv('KEYSTORE_PASSWORD')
-            keyAlias System.getenv('RELEASE_KEY_ALIAS')
-            keyPassword System.getenv('RELEASE_KEY_PASSWORD')
-        }
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
 }
 
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
