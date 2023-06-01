@@ -9,10 +9,21 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("keystore/my_app_keystore")
-            storePassword System.getenv('KEYSTORE_PASSWORD')
-            keyAlias System.getenv('RELEASE_KEY_ALIAS')
-            keyPassword System.getenv('RELEASE_KEY_PASSWORD')
+            def keystoreProperties = new Properties()
+            def keystorePropsFile = file("keystore/my_app_keystore")
+
+            if (keystorePropsFile.exists()) {
+                file("keystore/my_app_keystore").withInputStream { keystoreProperties.load(it) }
+                storeFile file("$keystoreProperties.storeFile")
+                storePassword "$keystoreProperties.storePassword"
+                keyAlias "$keystoreProperties.keyAlias"
+                keyPassword "$keystoreProperties.keyPassword"
+            } else {
+                storeFile file("keystore/my_app_keystore")
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias System.getenv('RELEASE_SIGN_KEY_ALIAS')
+                keyPassword System.getenv('RELEASE_SIGN_KEY_PASSWORD')
+            }
         }
     }
 
