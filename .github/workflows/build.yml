@@ -27,8 +27,8 @@ jobs:
       run: chmod +x gradlew
       
     # build and run tests of app
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Test with Gradle
+      run: ./gradlew test
       
     # create and upload APK and AAB
     - name: Create APK and AAB
@@ -45,3 +45,21 @@ jobs:
       with:
         name: app-release
         path: ${{ env.aab }}
+  
+  send_to_firebase:
+    needs: build_test_upload
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+          name: app-release
+          
+    - name: Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
+      with:
+        appId: ${{ secrets.FIREBASE_APP_ID }}
+        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+        groups: testers
+        file: app-release-unsigned.apk
+
