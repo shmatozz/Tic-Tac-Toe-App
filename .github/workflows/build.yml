@@ -28,18 +28,26 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
+  upload:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      apk: app/build/outputs/apk/release/app-release-unsigned.apk
+      aab: app/build/outputs/bundle/release/app-release.aab
+    
+    steps:
     # upload artefacts after building
-    - name: Upload artefacts
+    - name: Create APK and AAB
       run: |
         ./gradlew assembleRelease
         ./gradlew bundleRelease
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
-         name: app-release.apk
-         path: app/build/outputs/apk/release/app-release-unsigned.apk
+         name: app-release
+         path: ${{ env.apk }}
     - name: Upload AAB Bundle
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: app-release.aab
-        path: app/build/outputs/bundle/release/app-release.aab
+        name: app-release
+        path: ${{ env.aab }}
