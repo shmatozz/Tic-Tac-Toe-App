@@ -10,7 +10,9 @@ jobs:
 # job for app building with Gradle
   build_test_upload:
     runs-on: ubuntu-latest
-
+    env:
+      apk: app/build/outputs/apk/release/app-release-unsigned.apk
+      aab: app/build/outputs/bundle/release/app-release.aab
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
