@@ -40,4 +40,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     data class InfoGame(val time: Long, val gameField: String)
+
+    companion object {
+        fun wowItsTestFunc(username: String): String {
+            return "Hello $username!"
+        }
+    }
 }

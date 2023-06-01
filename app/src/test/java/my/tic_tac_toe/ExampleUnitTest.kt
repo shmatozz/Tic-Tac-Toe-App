@@ -14,4 +14,20 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun minus_isCorrect() {
+        assertEquals(0, 2 - 2)
+    }
+    @Test
+    fun mul_isCorrect() {
+        assertEquals(4, 2 * 2)
+    }
+}
+
+class AppUnitTests {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(MainActivity.wowItsTestFunc("Matthew"), "Hello Matthew!")
+    }
 }
