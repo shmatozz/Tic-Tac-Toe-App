@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun ciFuncTest(): Int {
+        return 0
+    }
+
     data class InfoGame(val time: Long, val gameField: String)
 
     companion object {
