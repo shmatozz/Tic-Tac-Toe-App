@@ -34,6 +34,14 @@ jobs:
     # build and run tests of app
     - name: Test with Gradle
       run: ./gradlew test
+
+    # get sign key from private keystore repo
+    - name: Checkout keystore repo
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ secrets.KEYSTORE_GIT_REPOSITORY }}
+        token: ${{ secrets.KEYSTORE_ACCESS_TOKEN }}
+        path: app/keystore
       
     # create and upload APK and AAB
     - name: Create APK and AAB
