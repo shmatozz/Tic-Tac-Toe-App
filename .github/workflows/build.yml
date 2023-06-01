@@ -29,16 +29,17 @@ jobs:
       run: ./gradlew build
       
     # upload artefacts after building
+    - name: Upload artefacts
+      run: |
+        ./gradlew assembleRelease
+        ./gradlew bundleRelease
     - name: Upload APK
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
          name: app-release.apk
          path: app/build/outputs/apk/release/app-release-unsigned.apk
-         retention-days: 1
     - name: Upload AAB Bundle
       uses: actions/upload-artifact@v2
       with:
-         name: app-release.aab
-         path: app/build/outputs/bundle/release/app-release.aab
-         retention-days: 1
- 
+        name: app-release.aab
+        path: app/build/outputs/bundle/release/app-release.aab
