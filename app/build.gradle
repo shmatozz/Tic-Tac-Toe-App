@@ -10,9 +10,9 @@ android {
     signingConfigs {
         release {
             storeFile file("my-tic-tac-toe.jks")
-            storePassword "testtest"
-            keyAlias "test"
-            keyPassword "testtest"
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyAlias System.getenv('RELEASE_KEY_ALIAS')
+            keyPassword System.getenv('RELEASE_KEY_PASSWORD')
         }
     }
 
