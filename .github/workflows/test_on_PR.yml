@@ -39,4 +39,4 @@ jobs:
           fetch-depth: 0
 
       - name: Test with Gradle
-        run: ./gradlew lints
+        run: ./gradlew lint
