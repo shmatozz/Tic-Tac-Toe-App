@@ -38,5 +38,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Test with Gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Lint with Gradle
         run: ./gradlew lint
