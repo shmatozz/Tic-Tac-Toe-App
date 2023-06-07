@@ -4,8 +4,6 @@ name: Android CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 # init list of jobs
 jobs:
