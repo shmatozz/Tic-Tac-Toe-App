@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import my.tic_tac_toe.databinding.ActivityMainBinding
 
+// this is main class (test comment)
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
