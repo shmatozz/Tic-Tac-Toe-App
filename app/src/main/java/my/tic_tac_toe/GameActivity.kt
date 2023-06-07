@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package my.tic_tac_toe
 
 import android.app.Dialog
@@ -96,6 +98,7 @@ class GameActivity : AppCompatActivity() {
         mediaPlayer.release()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_POPUP_MENU) {
             if (resultCode == RESULT_OK) {
@@ -393,8 +396,8 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun checkWinner(board: Array<Array<String>>): Int? {
-        var countRowsUser = 0
-        var countRowsAI = 0
+        var countRowsUser: Int
+        var countRowsAI: Int
         var countLeftDiagonalUser = 0
         var countLeftDiagonalAL = 0
         var countRightDiagonalUser = 0
@@ -409,7 +412,7 @@ class GameActivity : AppCompatActivity() {
             countRowsUser = 0
             countRowsAI = 0
 
-            columns.forEachIndexed { indexColumn, cell ->
+            columns.forEachIndexed { indexColumn, _ ->
                 if (board[indexColumn][indexRow] == PLAYER_SYMBOL)
                     countRowsUser++
                 else if (board[indexColumn][indexRow] == BOT_SYMBOL)
@@ -432,7 +435,7 @@ class GameActivity : AppCompatActivity() {
                 return STATUS_PLAYER_LOSE
         }
 
-        board.forEach {
+        board.forEach { it ->
             if (it.find { it == " " } != null)
                 return null
         }
