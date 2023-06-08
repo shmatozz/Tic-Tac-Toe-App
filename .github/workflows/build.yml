@@ -1,6 +1,6 @@
 name: Android CI
 
-# set up launch on push and pull request to master branch
+# set up launch on push to master branch
 on:
   push:
     branches: [ "master" ]
@@ -9,82 +9,99 @@ on:
 jobs:
   # job for app building with Gradle
   build_test_upload:
+    name: Test, build apk and aab, upload
     runs-on: ubuntu-latest
+    # set env variables
     env:
+      # path to apk
       apk: app/build/outputs/apk/release/app-release.apk
+      # path to aab
       aab: app/build/outputs/bundle/release/app-release.aab
+      # vars for app signing
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
       RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      # get repository
+      - uses: actions/checkout@v3
+      # set java env
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
 
-    # make executable
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    # build and run tests of app
-    - name: Test with Gradle
-      run: ./gradlew test
+      # make gradlew executable
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    # create and upload APK and AAB
-    - name: Create APK and AAB
-      run: |
-         ./gradlew assembleRelease --stacktrace
-         ./gradlew bundleRelease
-    - name: Upload signed APK
-      uses: actions/upload-artifact@v3
-      with:
-         name: app-release
-         path: ${{ env.apk }}
-    - name: Upload AAB Bundle
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-release
-        path: ${{ env.aab }}
+      # build and run tests of app
+      - name: Test with Gradle
+        run: ./gradlew test
+
+      # create APK and AAB
+      - name: Create signed .apk and .aab
+        run: |
+           ./gradlew assembleRelease --stacktrace
+           ./gradlew bundleRelease
+
+      # upload apk
+      - name: Upload signed .apk
+        uses: actions/upload-artifact@v3
+        with:
+           name: app-release
+           path: ${{ env.apk }}
+
+      # upload aab
+      - name: Upload .aab
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: ${{ env.aab }}
 
   # job for sending APK and AAB artefacts to Firebase server
   send_to_firebase:
+    name: Send .apk to Firebase testers group
+    # requires .apk build before uploading
     needs: build_test_upload
     runs-on: ubuntu-latest
 
     steps:
-    # download uploaded in the previous job artefacts
-    - uses: actions/download-artifact@v3
-      with:
-          name: app-release
+      # download artefacts
+      - uses: actions/download-artifact@v3
+        with:
+            name: app-release
 
-    # send to Firebase
-    - name: Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
-      with:
-        appId: ${{ secrets.FIREBASE_APP_ID }}
-        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-        groups: testers
-        file: app-release.apk
+      # send to Firebase
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: app-release.apk
 
   # job for sending message to telegram project chat about commit
   send_telegram:
+    name: Send message to TG chat about commit to master
+    # requires .apk build before uploading
     needs: build_test_upload
     runs-on: ubuntu-latest
     steps:
-      # download uploaded in the first job artefacts
+      # download artefacts
       - uses: actions/download-artifact@v3
         with:
           name: app-release
 
       # send to tg chat with bot
-      - name: send telegram message on push
+      - name: Send telegram message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          # add .apk to message
           document: app-release.apk
           message: |
             ${{ github.actor }} created commit:

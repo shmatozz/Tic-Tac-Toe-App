@@ -7,12 +7,15 @@ on:
 
 # init list of jobs
 jobs:
-  # job for app building with Gradle
+  # job for testing app with Gradle
   run_tests:
+    name: Test app
     runs-on: ubuntu-latest
 
     steps:
+      # get repository
       - uses: actions/checkout@v3
+      # set java env
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -20,7 +23,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # make executable
+      # make gradlew executable
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -28,18 +31,21 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test
 
+  # job for testing app with Gradle
   run_lint:
-    name: Lint Code Base
+    name: Lint Code
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      # get repository
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      # make gradlew executable
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # run inspect code
       - name: Lint with Gradle
         run: ./gradlew lint
