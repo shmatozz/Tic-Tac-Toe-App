@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // some more test comment
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         binding.toPlay.setOnClickListener {
