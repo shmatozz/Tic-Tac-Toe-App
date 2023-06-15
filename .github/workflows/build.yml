@@ -137,7 +137,9 @@ jobs:
           APP_DEBUG_LOCATION: app-debug.apk
           ANDROID_TEST_LOCATION: app-debug-androidTest.apk
           DEVICE_MODEL: Pixel5,version=30,locale=en,orientation=portrait
-        run: gcloud firebase test android run --type instrumentation --app $APP_DEBUG_LOCATION --test $ANDROID_TEST_LOCATION --device model=$DEVICE_MODEL --use-orchestrator --num-flaky-test-attempts 2
+        run: |
+          gcloud firebase test android models list
+          gcloud firebase test android run --type robo --app $APP_DEBUG_LOCATION --test $ANDROID_TEST_LOCATION --device model=$DEVICE_MODEL --use-orchestrator --num-flaky-test-attempts 2
 
   # job for sending message to telegram project chat about commit
   send_telegram:
