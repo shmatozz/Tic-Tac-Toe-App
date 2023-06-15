@@ -16,7 +16,7 @@ jobs:
       # path to apk
       apk: app/build/outputs/apk/release/app-release.apk
       # path to aab
-      aab: app/build/outputs/bundle/release/app-release.aab
+      apkDebug: app/build/outputs/apk/debug/app-debug.apk
       # vars for app signing
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
@@ -42,10 +42,11 @@ jobs:
         run: ./gradlew test
 
       # create APK and AAB
-      - name: Create signed .apk and .aab
+      - name: Create signed .apk
         run: |
            ./gradlew assembleRelease
-           ./gradlew bundleRelease
+           ./gradlew assembleDebug
+           ./gradlew assembleDebugAndroidTest
 
       # upload apk
       - name: Upload signed .apk
@@ -55,11 +56,18 @@ jobs:
            path: ${{ env.apk }}
 
       # upload aab
-      - name: Upload .aab
+      - name: Upload apkDebug
         uses: actions/upload-artifact@v3
         with:
-          name: app-release
-          path: ${{ env.aab }}
+          name: app-debug
+          path: ${{ env.apkDebug }}
+
+      # upload test apk
+      - name: Upload app-debug-androidTest APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
   docker:
     name: Build docker image
@@ -105,6 +113,28 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
           file: app-release.apk
+
+  run_ui_tests_on_firebase:
+    runs-on: ubuntu-latest
+    needs: build_test_upload
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download app-debug APK
+        uses: actions/download-artifact@v3
+        with:
+          name: app-debug
+
+      - name: Firebase auth with gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.FIREBASE_KEY }}
+          project_id: ${{ secrets.FIREBASE_APP_ID }}
+
+      - name: Run Instrumentation Tests in Firebase Test Lab
+        run: |
+          gcloud firebase test android models list
+          gcloud firebase test android run --type instrumentation --use-orchestrator --app app-debug/app-debug.apk --test app-debug-androidTest/app-debug-androidTest.apk --device model=Pixel2,version=28,locale=en,orientation=portrait
 
   # job for sending message to telegram project chat about commit
   send_telegram:
