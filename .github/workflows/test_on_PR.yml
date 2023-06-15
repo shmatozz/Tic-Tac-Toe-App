@@ -49,3 +49,24 @@ jobs:
       # run inspect code
       - name: Lint with Gradle
         run: ./gradlew lint
+
+  # job for sending message to telegram project chat about PR
+  send_telegram:
+    name: Send message to TG chat about commit to master
+    # requires .apk build before uploading
+    needs: [run_tests, run_lint]
+    runs-on: ubuntu-latest
+    steps:
+      # send to tg chat with bot
+      - name: Send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          # add .apk to message
+          document: app-release.apk
+          message: |
+            ${{ github.actor }} created new PR:
+
+            See changes: https://github.com/${{ github.repository }}/pulls
+
