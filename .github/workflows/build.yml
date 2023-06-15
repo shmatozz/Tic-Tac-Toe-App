@@ -46,7 +46,6 @@ jobs:
         run: |
            ./gradlew assembleRelease
            ./gradlew assembleDebug
-           ./gradlew assembleDebugAndroidTest
 
       # upload apk
       - name: Upload signed .apk
@@ -55,19 +54,12 @@ jobs:
            name: app-release
            path: ${{ env.apk }}
 
-      # upload aab
+      # upload apk debug for testing
       - name: Upload apkDebug
         uses: actions/upload-artifact@v3
         with:
           name: app-debug
           path: ${{ env.apkDebug }}
-
-      # upload test apk
-      - name: Upload app-debug-androidTest APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-debug
-          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
   # job for building and running docker image
   docker:
@@ -141,7 +133,6 @@ jobs:
       - name: Run Instrumentation Tests in Firebase Test Lab
         env:
           APP_DEBUG_LOCATION: app-debug.apk
-          ANDROID_TEST_LOCATION: app-debug-androidTest.apk
           DEVICE_MODEL: redfin,version=30,locale=en,orientation=portrait
         run: |
           gcloud firebase test android models list
