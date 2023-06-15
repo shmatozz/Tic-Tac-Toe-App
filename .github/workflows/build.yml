@@ -89,10 +89,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # push image to dockerhub
-      - name: Build and push
-        run: |
-          docker tag tic-tac-toe:latest shmatozz/tic-tac-toe
-          docker push ${{ secrets.DOCKER_USERNAME }}/tic-tac-toe:latest
+      - name: Push to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/tic-tac-toe:latest
 
       # run image
       - name: Run the application
