@@ -124,17 +124,20 @@ jobs:
         with:
           name: app-debug
 
-      - name: Firebase auth with gcloud
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Login to Google Cloud
+        uses: google-github-actions/setup-gcloud@v0
         with:
-          version: '290.0.1'
           service_account_key: ${{ secrets.FIREBASE_KEY }}
-          project_id: ${{ secrets.FIREBASE_APP_ID }}
+
+      - name: Set current project
+        run: gcloud config set project ${{ secrets.FIREBASE_APP_ID }}
 
       - name: Run Instrumentation Tests in Firebase Test Lab
-        run: |
-          gcloud firebase test android models list
-          gcloud firebase test android run --type instrumentation --use-orchestrator --app app-debug/app-debug.apk --test app-debug/app-debug-androidTest.apk --device model=Pixel5,version=30,locale=en,orientation=portrait
+        env:
+          APP_DEBUG_LOCATION: app-debug.apk
+          ANDROID_TEST_LOCATION: app-debug-androidTest.apk
+          DEVICE_MODEL: Pixel5,version=30,locale=en,orientation=portrait
+        run: gcloud firebase test android run --type instrumentation --app $APP_DEBUG_LOCATION --test $ANDROID_TEST_LOCATION --device model=$DEVICE_MODEL --use-orchestrator --num-flaky-test-attempts 2
 
   # job for sending message to telegram project chat about commit
   send_telegram:
