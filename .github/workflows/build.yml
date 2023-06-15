@@ -139,7 +139,7 @@ jobs:
           DEVICE_MODEL: redfin,version=30,locale=en,orientation=portrait
         run: |
           gcloud firebase test android models list
-          gcloud firebase test android run --type robo --app $APP_DEBUG_LOCATION --test $ANDROID_TEST_LOCATION --device model=$DEVICE_MODEL --num-flaky-test-attempts 2
+          gcloud firebase test android run --type robo --app $APP_DEBUG_LOCATION --device model=$DEVICE_MODEL --num-flaky-test-attempts 2
 
   # job for sending message to telegram project chat about commit
   send_telegram:
