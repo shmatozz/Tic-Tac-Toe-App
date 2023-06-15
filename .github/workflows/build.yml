@@ -26,10 +26,10 @@ jobs:
       # get repository
       - uses: actions/checkout@v3
       # set java env
-      - name: set up JDK 11
+      - name: set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
@@ -44,7 +44,7 @@ jobs:
       # create APK and AAB
       - name: Create signed .apk and .aab
         run: |
-           ./gradlew assembleRelease --stacktrace
+           ./gradlew assembleRelease
            ./gradlew bundleRelease
 
       # upload apk
@@ -60,6 +60,23 @@ jobs:
         with:
           name: app-release
           path: ${{ env.aab }}
+
+  docker:
+    name: Build docker image
+    runs-on: self-hosted
+    needs: build_test_upload
+
+    steps:
+      - name: Build Docker image
+        run: docker build -t tic-tac-toe:latest .
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image
+        run: |
+          docker tag tic-tac-toe:latest shmatozz/tic-tac-toe
+          docker push ${{secrets.DOCKER_USERNAME}}/tic-tac-toe:latest
 
   # job for sending APK and AAB artefacts to Firebase server
   send_to_firebase:
