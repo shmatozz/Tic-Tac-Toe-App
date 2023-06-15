@@ -82,7 +82,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tic-tac-toe:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/tic-tac-toe:latest
 
   # job for sending APK and AAB artefacts to Firebase server
   send_to_firebase:
